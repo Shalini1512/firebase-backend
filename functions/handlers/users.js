@@ -1,3 +1,5 @@
+const { admin, db } = require("../utils/admin");
+const config = require("../utils/config");
 const { uuid } = require("uuidv4");
 const firebase = require("firebase");
 const { 
@@ -6,17 +8,7 @@ const {
     reduceUserDetails,
 } = require("../util/validators");
 
-admin.initializeApp();
-const db = admin.firestore();
-
-firebase.initializeApp({
-    apiKey: "AIzaSyD43v871x3P67UF41QR6lRU2vXXYVKQwm0",
-    authDomain: "social-backend-3c9e5.firebaseapp.com",
-    databaseURL: "https://social-backend-3c9e5.firebaseio.com",
-    projectId: "social-backend-3c9e5",
-    storageBucket: "social-backend-3c9e5.appspot.com",
-    messagingSenderId: "911153537270",
-});
+firebase.initializeApp(config);
 
 // Register new user
 exports.signup = (req, res) => {
