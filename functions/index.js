@@ -38,4 +38,4 @@ app.get('/post/:postId/like', likePost);
 app.get('/post/:postId/unlike', unlikePost);
 app.post('/post/:postId/comment', commentOnPost);
 
-exports.api = functions.region('asia-south1').https.onRequest(app);
+exports.api = functions.region(process.env.REGION).https.onRequest(app);
