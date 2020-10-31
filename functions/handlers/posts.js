@@ -21,13 +21,13 @@ exports.getAllPosts = (req, res) => {
     })
     .catch((err) => {
       console.error(err);
-      res.status(500).json({ error: err.code });
+      res.status(500);
     });
 };
 
 exports.postOnePost = (req, res) => {
   if (req.body.body.trim() === '') {
-    return res.status(400).json({ body: 'Body must not be empty' });
+    return res.status(400);
   }
 
   const newPost = {
@@ -47,7 +47,7 @@ exports.postOnePost = (req, res) => {
       res.json(resPost);
     })
     .catch((err) => {
-      res.status(500).json({ error: 'something went wrong' });
+      res.status(500);
       console.error(err);
     });
 };
@@ -58,7 +58,7 @@ exports.getPost = (req, res) => {
     .get()
     .then((doc) => {
       if (!doc.exists) {
-        return res.status(404).json({ error: 'Post not found' });
+        return res.status(404);
       }
       postData = doc.data();
       postData.postId = doc.id;
@@ -83,7 +83,7 @@ exports.getPost = (req, res) => {
 // Comment on a comment
 exports.commentOnPost = (req, res) => {
   if (req.body.body.trim() === '')
-    return res.status(400).json({ comment: 'Must not be empty' });
+    return res.status(400);
 
   const newComment = {
     body: req.body.body,
@@ -110,7 +110,7 @@ exports.commentOnPost = (req, res) => {
     })
     .catch((err) => {
       console.log(err);
-      res.status(500).json({ error: 'Something went wrong' });
+      res.status(500);
     });
 };
 // Like a post
@@ -133,7 +133,7 @@ exports.likePost = (req, res) => {
         postData.postId = doc.id;
         return likeDocument.get();
       } else {
-        return res.status(404).json({ error: 'Post not found' });
+        return res.status(404);
       }
     })
     .then((data) => {
@@ -152,12 +152,12 @@ exports.likePost = (req, res) => {
             return res.json(postData);
           });
       } else {
-        return res.status(400).json({ error: 'Post already liked' });
+        return res.status(400);
       }
     })
     .catch((err) => {
       console.error(err);
-      res.status(500).json({ error: err.code });
+      res.status(500);
     });
 };
 
@@ -180,12 +180,12 @@ exports.unlikePost = (req, res) => {
         postData.postId = doc.id;
         return likeDocument.get();
       } else {
-        return res.status(404).json({ error: 'Post not found' });
+        return res.status(404);
       }
     })
     .then((data) => {
       if (data.empty) {
-        return res.status(400).json({ error: 'Post not liked' });
+        return res.status(400);
       } else {
         return db
           .doc(`/likes/${data.docs[0].id}`)
@@ -201,7 +201,7 @@ exports.unlikePost = (req, res) => {
     })
     .catch((err) => {
       console.error(err);
-      res.status(500).json({ error: err.code });
+      res.status(500);
     });
 };
 // Delete a post
@@ -211,10 +211,10 @@ exports.deletePost = (req, res) => {
     .get()
     .then((doc) => {
       if (!doc.exists) {
-        return res.status(404).json({ error: 'Post not found' });
+        return res.status(404);
       }
       if (doc.data().userHandle !== req.user.handle) {
-        return res.status(403).json({ error: 'Unauthorized' });
+        return res.status(403);
       } else {
         return document.delete();
       }
